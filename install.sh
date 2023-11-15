@@ -4,27 +4,27 @@
 install_on_debian() {
     echo "Detected a Debian-based Linux distribution."
     sudo apt-get update
-    sudo apt-get install -y libgit2-dev libssh2-1-dev libconfig++-dev libssh-dev libcurl4-openssl-dev
+    sudo apt-get install -y libgit2-dev libssh2-1-dev libconfig++-dev libssh-dev libcurl4-openssl-dev coreutils
 }
 
 # Function to install dependencies on Red Hat-based systems
 install_on_redhat() {
     echo "Detected a Red Hat-based Linux distribution."
     sudo yum install -y epel-release
-    sudo yum install -y libgit2-devel libssh2-devel libconfig-devel libssh-devel libcurl-devel
+    sudo yum install -y libgit2-devel libssh2-devel libconfig-devel libssh-devel libcurl-devel coreutils
 }
 
 # Function to install dependencies on Fedora
 install_on_fedora() {
     echo "Detected Fedora."
-    sudo dnf install -y libgit2-devel libssh2-devel libconfig-devel libssh-devel libcurl-devel
+    sudo dnf install -y libgit2-devel libssh2-devel libconfig-devel libssh-devel libcurl-devel coreutils
 }
 
 # Function to install dependencies on Arch Linux
 install_on_arch() {
     echo "Detected Arch Linux."
     sudo pacman -Syu --noconfirm
-    sudo pacman -S --noconfirm libgit2 libssh2 libconfig libssh curl
+    sudo pacman -S --noconfirm libgit2 libssh2 libconfig libssh curl coreutils
 }
 
 # Detect the distribution
@@ -104,7 +104,20 @@ create_systemd_service() {
     
 }
 
-download_binary
+generate_config_and_ssh() {
+    timeout 60s ObsidianGitSync
+}
+
+# Check if the ObsidianGitSync does not exist
+if [ ! -f "$file_path" ]; then
+    echo "ObsidianGitSync does not exist. Downloading..."
+    # Download binary github releases
+    download_binary
+else
+    echo "ObsidianGitSync exists."
+fi
+
 create_dirs
 create_config_file
 create_systemd_service
+generate_config_and_ssh

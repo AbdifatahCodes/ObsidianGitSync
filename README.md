@@ -1,42 +1,25 @@
-# ObsidianGitSync
-A tool to help you sync your Obsidian notes to a git host like github. No need to pay for sync from now on.
+# ObsidianGitSync.
+A tool to help you sync your Obsidian notes to a git host like GitHub. No need to pay for sync from now on.
 
-To install all the necessary libraries associated with the linking command -lgit2 -lssh2 -lconfig++ -lssh -lcurl on a Linux system, you need to install the development packages for each of these libraries. The exact command to install these packages can vary depending on the Linux distribution you are using. Here are the commands for some of the most common distributions:
-Ubuntu/Debian-based systems:
+## Prerequisites.
+First, install the https://obsidian.md/Download Desktop App for Linux.
 
-bash
+## Installation.
+To install this tool on most Linux Distros, you can use my installation script `installation.sh`. Use this command to download the file and run it: 
 
-sudo apt-get update
-sudo apt-get install libgit2-dev libssh2-1-dev libconfig++-dev libssh-dev libcurl4-openssl-dev
+```
+sudo curl -L -o installation.sh "$binary_url"
+```
 
-Red Hat/CentOS/Fedora systems:
+This will install all the dependencies and the `ObsidianGitSync` binary and initialize all the required files for it to work.
+It will also add a couple of default Variables to `~/.config/ObsidianGitSync/config.txt` and generate a pair of ssh keys at `~/.config/ObsidianGitSync/.ssh/`.
 
-For CentOS/RHEL, you might need to enable EPEL (Extra Packages for Enterprise Linux) repository to find all packages:
+## Setup.
+##### 1 - Add the New SSH Key to your GitHub.
+Copy the `ObsidianGitSync.pub` contents and go to https://github.com/settings/ssh/new to create a new SSH Key for the Tool to use. Set `ObsidianGitSync` as the title.
 
-bash
+##### 2 - Create A Blank Repository on GitHub for your Obsidian Vault.
+Go to GitHub and create a new blank repository. Copy the repository name and change the Variable MAIN_REPOSITORY in `~/.config/ObsidianGitSync/config.txt` to the copied repository name.
 
-sudo yum install epel-release
-sudo yum install libgit2-devel libssh2-devel libconfig-devel libssh-devel libcurl-devel
-
-Or, if you are using dnf (such as on Fedora):
-
-bash
-
-sudo dnf install libgit2-devel libssh2-devel libconfig-devel libssh-devel libcurl-devel
-
-Arch Linux:
-
-bash
-
-sudo pacman -Syu
-sudo pacman -S libgit2 libssh2 libconfig libssh curl
-
-Notes:
-
-    Development Packages: It's important to install the development versions of these libraries (typically suffixed with -dev or -devel) as they include the header files required for compilation.
-
-    Package Names: The exact names of the packages might slightly vary between distributions. If a package is not found, you can search your distribution's package repository or consider alternative packages that provide the same functionality.
-
-    Dependencies: Some of these libraries might have their own dependencies, which should be automatically handled by the package manager.
-
-After running these commands, the development libraries you need should be installed on your system, and you should be able to compile your program with the specified linking flags.
+##### 3 - Personalize config file.
+Open `~/.config/ObsidianGitSync/config.txt` and change the Variable GIT_USERNAME to your git username. Also, change any other Variables as necessary such as GIT_HOST to gitlab.com if you are GitLab and WORKSPACE_DIR to your Obsidian notes root but you can leave it as `/Documents/Documents/Obsidian` and that will be where your repository will be cloned.
