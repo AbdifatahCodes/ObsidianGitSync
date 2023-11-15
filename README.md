@@ -8,8 +8,8 @@ Before installing ObsidianGitSync, ensure that the [Obsidian Desktop App](https:
 To install ObsidianGitSync on most Linux distributions, use the provided installation script. Run the following commands to download and execute the script:
 
 ```bash
-sudo curl -L -o installation.sh "https://github.com/AbdifatahCodes/ObsidianGitSync/releases/download/installation/installation.sh"
-sudo bash installation.sh
+curl -L -o installation.sh "https://github.com/AbdifatahCodes/ObsidianGitSync/releases/download/installation/installation.sh"
+bash installation.sh
 ```
 
 This script performs several actions:
