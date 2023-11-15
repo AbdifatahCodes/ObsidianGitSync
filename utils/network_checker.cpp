@@ -21,7 +21,7 @@ int NetworkChecker::checkConnectivity() {
         }
         curl_easy_cleanup(curl);
         curl_global_cleanup();
-        logging.log_to_file("Error: Network connection is Down, Aborting push to remote for now.");
+        logging.log_to_file("Error: Network connection is Down, Aborting for now.");
         return -1;
     }
     curl_global_cleanup();

@@ -31,7 +31,7 @@ install_on_arch() {
 if [ -f /etc/os-release ]; then
     . /etc/os-release
     case $ID in
-        ubuntu | debian)
+        ubuntu | debian | pop)
             install_on_debian
             ;;
         rhel | centos)
@@ -53,19 +53,58 @@ else
     exit 1
 fi
 
-# Function to download and run the binary package
-download_and_run() {
-    echo "Downloading the binary package from GitHub releases..."
-    # Replace with the direct link to your binary in GitHub releases
-    binary_url="https://github.com/username/repository/releases/download/v1.0/your-binary"
-    curl -L -o your-binary "$binary_url"
-
-    echo "Making the binary executable..."
-    chmod +x your-binary
-
-    echo "Running the binary..."
-    ./your-binary
+# Create Required directories
+create_dirs() {
+    mkdir ~/.config/ObsidianGitSync ~/Documents/Documents/Obsidian
 }
 
-# After installing dependencies, download and run the binary
-download_and_run
+# Function to download the binary package
+download_binary() {
+    echo "Downloading the binary package from GitHub releases..."
+    binary_url="https://github.com/AbdifatahCodes/ObsidianGitSync/releases/download/trial/ObsidianGitSync"
+    curl -L -o ObsidianGitSync "$binary_url"
+
+    echo "Making the binary executable..."
+    chmod +x ObsidianGitSync
+
+    sudo mv ObsidianGitSync /bin/usr
+
+}
+
+create_config_file() {
+    config_dir="/home/$USER/.config/ObsidianGitSync"
+    config_file="$config_dir/config.txt"
+    
+    # Create directory if it doesn't exist
+    mkdir -p "$config_dir"
+
+    echo "Creating configuration file..."
+    echo "GIT_HOST = \"github.com\";" > "$config_file"
+    echo "GIT_USERNAME = \"username\";" >> "$config_file"
+    echo "MAIN_REPOSITORY = \"ObsidianGitVault\";" >> "$config_file"
+    echo "SSH_KEY_NAME = \"ObsidianGitSync\";" >> "$config_file"
+    echo "ROOT_DIR = \"$config_dir\";" >> "$config_file"
+}
+
+create_systemd_service() {
+    service_file="/etc/systemd/system/obsidian-git-sync.service"
+
+    echo "Creating systemd service file..."
+    echo "[Unit]" > "$service_file"
+    echo "Description=ObsidianGitSync Service." >> "$service_file"
+    echo "After=network.target" >> "$service_file"
+    echo "" >> "$service_file"
+    echo "[Service]" >> "$service_file"
+    echo "ExecStart=ObsidianGitSync" >> "$service_file"
+    echo "Restart=on-failure" >> "$service_file"
+    echo "User=$USER" >> "$service_file"
+    echo "" >> "$service_file"
+    echo "[Install]" >> "$service_file"
+    echo "WantedBy=multi-user.target" >> "$service_file"
+    
+}
+
+download_binary
+create_dirs
+create_config_file
+create_systemd_service
