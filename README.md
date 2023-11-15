@@ -42,13 +42,13 @@ Follow these steps to configure ObsidianGitSync for use:
 
 ### 4 - Finish installation.
 Complete the installation process by running ObsidianGitSync as a background service:
-```
+```bash
 sudo systemctl enable obsidian-git-sync.service
 sudo systemctl start obsidian-git-sync.service
 ```
 
 To stop the the service: 
-```
+```bash
 sudo systemctl stop obsidian-git-sync.service
 ```
 

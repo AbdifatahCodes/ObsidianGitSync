@@ -67,7 +67,7 @@ download_binary() {
     echo "Making the binary executable..."
     chmod +x ObsidianGitSync
 
-    sudo mv ObsidianGitSync /bin/usr
+    sudo mv ObsidianGitSync /usr/bin
 
 }
 
