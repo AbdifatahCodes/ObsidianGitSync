@@ -74,9 +74,6 @@ download_binary() {
 create_config_file() {
     config_dir="/home/$USER/.config/ObsidianGitSync"
     config_file="$config_dir/config.txt"
-    
-    # Create directory if it doesn't exist
-    mkdir -p "$config_dir"
 
     echo "Creating configuration file..."
     echo "GIT_HOST = \"github.com\";" > "$config_file"
@@ -87,7 +84,7 @@ create_config_file() {
 }
 
 create_systemd_service() {
-    service_file="/etc/systemd/system/obsidian-git-sync.service"
+    service_file="obsidian-git-sync.service"
 
     echo "Creating systemd service file..."
     echo "[Unit]" > "$service_file"
@@ -102,9 +99,11 @@ create_systemd_service() {
     echo "[Install]" >> "$service_file"
     echo "WantedBy=multi-user.target" >> "$service_file"
     
+    sudo mv obsidian-git-sync.service /etc/systemd/system/
 }
 
 generate_config_and_ssh() {
+    echo "Wait for ObsidianGitSync to Initialize and generate SSH keys, Don't cancel the process, let it finish. Computing..."
     timeout 60s ObsidianGitSync
 }
 
